@@ -1,0 +1,177 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-08-04 17:28:45
+ * @LastEditTime: 2021-08-13 17:04:00
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \demo\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="player2_5/dist/neplayer_v2.8.0.js"></script>
+    <title>web播放器demo</title>
+    <link rel="stylesheet" href="./css/buttons.css">
+    <!-- <link rel="stylesheet" href="./js/sdk/neplayer.min.css"> -->
+    <link rel="stylesheet" href="./player2_5/dist/neplayer_v2.8.0.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/nrtc-new.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/demo.css">
+</head>
+
+<style>
+    .msgContent {
+        width: 100%;
+        height: 400px;
+        border: 1px solid #000;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .msgItem {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50px;
+    }
+
+    .content {
+        line-height: 30px;
+        margin-left: 5px;
+    }
+
+    video {
+        width: 100%;
+    }
+
+    body {
+        width: 100%;
+    }
+
+    body * {
+        padding: 0%;
+    }
+
+    .msgContent {
+        width: 850px;
+    }
+</style>
+
+
+
+    <body>
+	   <div  class="m-hd-nav" >
+        <div class="hd-nav-box" >
+            <div class="m-logo"><a href="https://yunxin.163.com/" title="网易云信" class="anchor logo-link">
+                <img src="https://yx-web-nosdn.netease.im/quickhtml%2Fassets%2Fyunxin%2Fnode-website%2Fyunxin_logo_white.png" alt="网易云信LOGO" class="logoImg-white"></a>
+            </div>
+        </div>
+    </div>
+    <Object id="flashTag" width="400" height="400" style="display:none;" data="../dist/video-js.swf"></Object>
+    <div class="ne-container">
+        <div class="ne-header">
+            <h1 class="ne-title">web播放器</h1>
+        </div>
+        <div class="ne-content">
+            <div class="ne-player-container">
+                <canvas id='canvas' style="position: absolute;z-index: 1; display: none;" class="canvas-video"></canvas>
+                <video id="my-video" class="video-js" x-webkit-airplay="allow" webkit-playsinline playsinline
+                    width="960" height="540"></video>
+            </div>
+            <div>
+                <label>拉流地址</label>
+                <input type="text" class="playUrl" id="playUrl" placeholder="请输入播放地址"
+                    value="https://vodmjy1tuni.vod.126.net/vodmjy1tuni/EL71SeTF_3382273760_shd.mp4">
+                <input type="checkbox" class="isLive" id="isLive">直播
+            </div>
+            <div class="ne-group">
+                <button class="ne-button" id="playNow" onclick="playNow()">开始播放</button>
+            </div>
+        </div>
+        <div class="ne-footer">
+            <p>version: v2.8.0</p>
+        </div>
+    </div>
+    </body>
+    <script>
+        var option =  {
+            "controls": true, //是否显示控制条
+            "autoplay": true, //是否自动播放(ios不支持自动播放)
+            /*预加载选项*/
+            "preload": "auto",
+            /*
+            'auto'预加载视频（需要浏览器允许）;
+            'metadata'仅预加载视频meta信息;
+            'none'不预加载;
+            */
+            "poster": "https://yunxin.163.com/res/image/base/logo/logo-black@2x.png", //视频播放前显示的图片
+            "loop": true, //是否循环播放
+            "height": 480, //设置播放器高度
+
+            "techOrder": ['html5', 'flvjs', 'flash'], //优先使用的播放模式（2.3.0版本开始支持flvjs）
+            "streamTimeoutTime": 30 * 1000, //拉流超时时间，默认30s
+            /*设置播放器控件*/
+            controlBar: {
+                playToggle: true,
+                volumeMenuButton:true
+            }
+        };
+
+        var myPlayer = neplayer("my-video",option, function () {
+            console.log("播放器初始化完成")
+            console.log(myPlayer)
+
+          myPlayer.onPlayState(1, function () {
+            console.log('state play')
+        })
+
+          myPlayer.onPlayState(2, function () {
+    console.log('state pause')
+})
+
+myPlayer.onPlayState(3, function () { 
+    console.log('state ended')
+})
+
+myPlayer.onError(function (data) { 
+
+    console.error('发生错误: ', data)
+    return
+
+    if (myPlayer.corePlayer.cache_.src.indexOf('rtmp') >= 0) {
+        if (data.errCode == 0) {
+            console.warn('错误码: ', data)
+            currentData.errCode = 0
+        } else if (currentData.errCode == 0 && data.errCode == 7) {
+            console.error('发生错误: ', data)
+        } else if (data.errCode == 7) {
+            console.warn('网络阻塞问题，可以重新拉流')
+            currentData = {}
+            playNow()
+        }
+    } else {
+        console.error('发生错误: ', data)
+    }
+    
+})
+
+            myPlayer.setDataSource([{
+ 
+                src: "https://vodmjy1tuni.vod.126.net/vodmjy1tuni/EL71SeTF_3382273760_shd.mp4"
+            }])
+        });
+
+    </script>
+
+</html>

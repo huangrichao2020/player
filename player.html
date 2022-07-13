@@ -102,14 +102,13 @@
         <div class="ne-footer">
             <p>version: v2.8.0</p>
         </div>
-        <div class="part">
-            <div id="debug-content" class="bottom-debug-content"></div>
-        </div>
+    </div>
+    <div class="part">
+        <div id="debug-content" class="bottom-debug-content"></div>
     </div>
     </body>
     <script>
-        var debugContentNode = $('#debug-content').get(0)
-
+       
         var option =  {
             "controls": true, //是否显示控制条
             "autoplay": false, //是否自动播放(ios不支持自动播放)
@@ -223,6 +222,7 @@ myPlayer.onError(function (data) {
 
 function addLog(info) {
   var temp = JSON.stringify(info)
+  var debugContentNode = $('#debug-content').get(0)
   debugContentNode.innerHTML = '<p>' + temp + '</p>' + debugContentNode.innerHTML
 }
 

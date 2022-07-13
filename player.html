@@ -216,6 +216,12 @@ myPlayer.onError(function (data) {
     
 })
 
+function addLog(info) {
+  var temp = JSON.stringify(info)
+  debugContentNode.innerHTML = '<p>' + temp + '</p>' + debugContentNode.innerHTML
+}
+
+
             myPlayer.setDataSource([{
                 type: 'nertc', //拉流协议为HTTP-FLV，改值为: 'video/x-flv'；拉流协议为HTTP-HLS，改值为: 'application/x-mpegURL'；拉流协议为NERTC低延迟直播，改值为: 'nertc'
                 streamTimeoutTime: 20,//仅NERTC低延迟直播场景下，允许动态设置拉流的超时时间

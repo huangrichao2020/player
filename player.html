@@ -102,9 +102,14 @@
         <div class="ne-footer">
             <p>version: v2.8.0</p>
         </div>
+        <div class="part">
+            <div id="debug-content" class="bottom-debug-content"></div>
+        </div>
     </div>
     </body>
     <script>
+        var debugContentNode = $('#debug-content').get(0)
+
         var option =  {
             "controls": true, //是否显示控制条
             "autoplay": false, //是否自动播放(ios不支持自动播放)

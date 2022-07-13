@@ -140,6 +140,56 @@
     console.log('state pause')
 })
 
+myPlayer.onNertcEvent((data) => {
+    console.log('收到低延迟通知事件: ', data)
+    if(data.eventType === 'liveStreamEnd'){
+        addLog(`检测到主播停止推流`)
+    } if(data.eventType === 'atuoPlayNotAllowed'){
+        addLog(`检测媒体播放失败: `, data.mediaType)
+		
+        const userGestureUI = document.createElement("div")
+        userGestureUI.style.fontSize = "20px";
+        userGestureUI.style.position = "fixed";
+        userGestureUI.style.background = "yellow";
+        userGestureUI.style.margin = "auto";
+        userGestureUI.style.width = "100%";
+        userGestureUI.style.zIndex = "9999";
+        userGestureUI.style.top = "0";
+        userGestureUI.onclick = ()=>{
+            if (userGestureUI){
+                userGestureUI.parentNode?.removeChild(userGestureUI)
+            }
+            myPlayer.resumeLiveStream()
+        }
+        
+        userGestureUI.style.display = "block";
+        userGestureUI.innerHTML = `${data.mediaType}自动播放受到浏览器限制，需手势触发。<br/>点击此处手动播放`
+        document.body.appendChild(userGestureUI)
+
+        /*可以页面弹筐加一个按钮
+        执行: 
+        myPlayer.resumeLiveStream()
+        或者执行:
+        myPlayer.setDataSource({
+            type: 'nertc', 
+            src: '',
+            streamTimeoutTime:  20,
+            isLive: true
+        })*/
+
+    } else if(data.eventType === 'reconnectioning'){
+        addLog(`拉流网络异常，正在重连`)
+    } else if(data.eventType === 'reconnected'){
+        addLog(`重连成功`)
+    } else if(data.eventType === 'streamTimeout'){
+        addLog(`拉流超时了，已经停止拉流`)
+    } else if(data.eventType === 'error'){
+        addLog(`拉流异常，错误信息: ${data.errorEvent.message}`)
+    } else if(data.eventType === 'liveStreamReady'){
+        addLog(`拉流成功: uid: ${data.uid}, cid: ${data.cid}`)
+    }
+})
+
 myPlayer.onPlayState(3, function () { 
     console.log('state ended')
 })

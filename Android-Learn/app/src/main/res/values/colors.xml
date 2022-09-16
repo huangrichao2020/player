@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <!-- 所有页面背景颜色-->
+    <color name="bg">#F3F3F3</color>
+    <!-- 顶部标题文字颜色 -->
+    <color name="top_title_text">#000000</color>
+</resources>

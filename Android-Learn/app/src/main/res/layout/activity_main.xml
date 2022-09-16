@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#fff">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录-加入频道-发消息-打rtc通话"
+            android:layout_centerInParent="true"
+            android:textSize="22sp"
+            android:textColor="@color/top_title_text"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:id="@+id/accountTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="账号："
+            android:textColor="@android:color/background_dark" />
+        <EditText
+            android:id="@+id/accountEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="请输入用户名"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/accountTv"
+            android:layout_marginLeft="3dp"
+            android:singleLine="true"
+            android:ems="20"
+            android:maxLength="25"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:layout_marginTop="20dp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:id="@+id/passwordTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="密码："
+            android:textColor="@android:color/background_dark" />
+        <EditText
+            android:id="@+id/passwordEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/passwordTv"
+            android:layout_marginLeft="3dp"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:ems="20"
+            android:hint="请输入密码"
+            android:maxLength="25"
+            android:textColor="@color/colorPrimary"
+            android:ellipsize="end"
+            android:background="@null"
+            android:layout_marginTop="20dp"
+            />
+
+    </RelativeLayout>
+    <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    android:fadingEdge="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+       >
+        <Button
+            android:id="@+id/saveAndLoginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="保存信息并登录"/>
+        <Button
+            android:id="@+id/showBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="显示登录信息"/>
+        <Button
+            android:id="@+id/joinChannel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="joinChannel"/>
+
+        <Button
+            android:id="@+id/leaveChannel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="leaveChannel" />
+
+        <EditText
+            android:id="@+id/msgExt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入要发送的内容"
+            android:layout_margin="10dp"
+
+            />
+        <Button
+            android:id="@+id/sendMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="sendMsg" />
+
+        <Button
+            android:id="@+id/call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="call"/>
+        <Button
+            android:id="@+id/endCall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="endCall"/>
+    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

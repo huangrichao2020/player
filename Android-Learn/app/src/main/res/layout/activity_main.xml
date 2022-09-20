@@ -116,24 +116,45 @@
             android:layout_margin="10dp"
             android:text="保存信息并登录"/>
         <Button
+            android:id="@+id/readyServer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="创建服务器"/>
+        <Button
+            android:id="@+id/readyChannel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="创建消息频道"/>
+        <Button
             android:id="@+id/showBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="显示登录信息"/>
+            android:text="显示圈组信息"/>
+
+        <EditText
+            android:id="@+id/inviteExt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入要邀请的账号"
+            android:layout_margin="10dp"
+
+            />
         <Button
-            android:id="@+id/joinChannel"
+            android:id="@+id/invitePeople"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="joinChannel"/>
+            android:text="邀请某人加入服务器"/>
 
         <Button
-            android:id="@+id/leaveChannel"
+            android:id="@+id/queryChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="leaveChannel" />
+            android:text="查询频道成员" />
 
         <EditText
             android:id="@+id/msgExt"
@@ -148,20 +169,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="sendMsg" />
+            android:text="发送消息" />
 
+        <Button
+            android:id="@+id/createAndInviteRtcChannel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="创建RTC频道并邀请成员" />
         <Button
             android:id="@+id/call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="call"/>
+            android:text="发起通话"/>
         <Button
             android:id="@+id/endCall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="endCall"/>
+            android:text="结束通话"/>
     </LinearLayout>
     </ScrollView>
 

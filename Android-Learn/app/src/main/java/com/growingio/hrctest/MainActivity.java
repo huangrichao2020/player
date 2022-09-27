@@ -67,92 +67,92 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
-        private EditText accountEt,passwordEt,inviteExt,messageExt;//账号、密码的输入框
-        private String username,password, TAG = "圈组跑通中:";
-        private Long serverId , channelId = 0L;
-        @Override
-        protected void onCreate(Bundle savedInstanceState)
-        {
-            super.onCreate(savedInstanceState);
-            //全局判断是否创建了圈组服务器和频道并加入
-            SharePreferenceUtils.putBoolean(this,SP_READY,false);
-            NIMClient.init(this, loginInfo(), options());
+    private EditText accountEt,passwordEt,inviteExt,messageExt;//账号、密码的输入框
+    private String username,password, TAG = "圈组跑通中:";
+    private Long serverId , channelId = 0L;
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        //全局判断是否创建了圈组服务器和频道并加入
+        SharePreferenceUtils.putBoolean(this,SP_READY,false);
+        NIMClient.init(this, loginInfo(), options());
 
-            NIMClient.getService(SdkLifecycleObserver.class).observeMainProcessInitCompleteResult(new Observer<Boolean>() {
-                @Override
-                public void onEvent(Boolean aBoolean) {
-                    if (aBoolean != null && aBoolean) {
-                        // 主进程初始化完毕，可以开始访问数据库
-                        Log.d(TAG,"主进程初始化完毕");
-                    }
+        NIMClient.getService(SdkLifecycleObserver.class).observeMainProcessInitCompleteResult(new Observer<Boolean>() {
+            @Override
+            public void onEvent(Boolean aBoolean) {
+                if (aBoolean != null && aBoolean) {
+                    // 主进程初始化完毕，可以开始访问数据库
+                    Log.d(TAG,"主进程初始化完毕");
                 }
-            }, true);
-
-            if (NIMUtil.isMainProcess(this)) {
-                // 注意：以下操作必须在主进程中进行
-                // 1、UI相关初始化操作
-                // 2、相关Service调用
-                initUI();
-                //调用observeOnlineStatus方法监听 IM 登录状态。
-                NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
-                        new Observer<StatusCode> () {
-                            public void onEvent(StatusCode status) {
-                                //获取状态的描述
-                                String desc = status.getDesc();
-                                if (status.wontAutoLogin()) {
-                                    // 被踢出、账号被禁用、密码错误等情况，自动登录失败，需要返回到登录界面进行重新登录操作
-                                    Log.d(TAG,"当前登录状态是"+desc);
-                                }
-                            }
-                        }, true);
-                //IM 同步状态
-                NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
-                    @Override
-                    public void onEvent(LoginSyncStatus status) {
-                        if (status == LoginSyncStatus.BEGIN_SYNC) {
-                            Log.i(TAG, "login sync data begin");
-                        } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
-                            Log.i(TAG, "login sync data completed");
-                        }
-                    }
-                }, true);
-               // 监听圈组登录
-                NIMClient.getService(QChatServiceObserver.class).observeStatusChange(new Observer<QChatStatusChangeEvent>() {
-                    @Override
-                    public void onEvent(QChatStatusChangeEvent qChatStatusChangeEvent) {
-                        //当前状态
-                        StatusCode status = qChatStatusChangeEvent.getStatus();
-                        if (status == StatusCode.LOGINED) {
-                            Log.i(TAG, "登录成功！ ");
-                        } else if (status == StatusCode.CONNECTING || status == StatusCode.LOGINING || status == StatusCode.SYNCING) {
-                            Log.i(TAG, "正在登录中！ ");
-                        } else {
-                            Log.i(TAG,"登录出现异常，报错码为：" + status.getValue());
-                        }
-                    }
-                },true);
             }
-            //接收方 调用QChatServiceObserver#observeReceiveMessage方法监听圈组消息接收。
-            NIMClient.getService(QChatServiceObserver.class).observeReceiveMessage(new Observer<List<QChatMessage>>() {
+        }, true);
+
+        if (NIMUtil.isMainProcess(this)) {
+            // 注意：以下操作必须在主进程中进行
+            // 1、UI相关初始化操作
+            // 2、相关Service调用
+            initUI();
+            //调用observeOnlineStatus方法监听 IM 登录状态。
+            NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(
+                    new Observer<StatusCode> () {
+                        public void onEvent(StatusCode status) {
+                            //获取状态的描述
+                            String desc = status.getDesc();
+                            if (status.wontAutoLogin()) {
+                                // 被踢出、账号被禁用、密码错误等情况，自动登录失败，需要返回到登录界面进行重新登录操作
+                                Log.d(TAG,"当前登录状态是"+desc);
+                            }
+                        }
+                    }, true);
+            //IM 同步状态
+            NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(new Observer<LoginSyncStatus>() {
                 @Override
-                public void onEvent(List<QChatMessage> qChatMessages) {
-                    //收到消息qChatMessages
-                    for (QChatMessage qChatMessage : qChatMessages) {
-                        //处理消息
-                        Log.d(TAG,"收到圈组消息:"+qChatMessage.getContent());
+                public void onEvent(LoginSyncStatus status) {
+                    if (status == LoginSyncStatus.BEGIN_SYNC) {
+                        Log.i(TAG, "login sync data begin");
+                    } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
+                        Log.i(TAG, "login sync data completed");
                     }
                 }
             }, true);
-
-            // 发送方调用QChatServiceObserver#observeMessageStatusChange)方法监听圈组消息发送状态。
-            NIMClient.getService(QChatServiceObserver.class).observeMessageStatusChange(new Observer<QChatMessage>() {
+            // 监听圈组登录
+            NIMClient.getService(QChatServiceObserver.class).observeStatusChange(new Observer<QChatStatusChangeEvent>() {
                 @Override
-                public void onEvent(QChatMessage qChatMessage) {
-                    //收到状态变化的消息qChatMessage
-                    Log.d(TAG,"发送圈组消息完成:"+ qChatMessage.getContent() + qChatMessage.getUuid());
+                public void onEvent(QChatStatusChangeEvent qChatStatusChangeEvent) {
+                    //当前状态
+                    StatusCode status = qChatStatusChangeEvent.getStatus();
+                    if (status == StatusCode.LOGINED) {
+                        Log.i(TAG, "登录成功！ ");
+                    } else if (status == StatusCode.CONNECTING || status == StatusCode.LOGINING || status == StatusCode.SYNCING) {
+                        Log.i(TAG, "正在登录中！ ");
+                    } else {
+                        Log.i(TAG,"登录出现异常，报错码为：" + status.getValue());
+                    }
                 }
-            }, true);
+            },true);
         }
+        //接收方 调用QChatServiceObserver#observeReceiveMessage方法监听圈组消息接收。
+        NIMClient.getService(QChatServiceObserver.class).observeReceiveMessage(new Observer<List<QChatMessage>>() {
+            @Override
+            public void onEvent(List<QChatMessage> qChatMessages) {
+                //收到消息qChatMessages
+                for (QChatMessage qChatMessage : qChatMessages) {
+                    //处理消息
+                    Log.d(TAG,"收到圈组消息:"+qChatMessage.getContent());
+                }
+            }
+        }, true);
+
+        // 发送方调用QChatServiceObserver#observeMessageStatusChange)方法监听圈组消息发送状态。
+        NIMClient.getService(QChatServiceObserver.class).observeMessageStatusChange(new Observer<QChatMessage>() {
+            @Override
+            public void onEvent(QChatMessage qChatMessage) {
+                //收到状态变化的消息qChatMessage
+                Log.d(TAG,"发送圈组消息完成:"+ qChatMessage.getContent() + qChatMessage.getUuid());
+            }
+        }, true);
+    }
 
     protected void initUI(){
         setContentView(R.layout.activity_main);
@@ -275,9 +275,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("显示保存的信息");
                 builder.setMessage("用户名：" + username
-                            + "\n" + "密码：" + password
-                            + "\n" + "服务器ID：" + serverId
-                            + "\n" + "频道ID： " + channelId);
+                        + "\n" + "密码：" + password
+                        + "\n" + "服务器ID：" + serverId
+                        + "\n" + "频道ID： " + channelId);
                 builder.setPositiveButton("知道了", new DialogInterface.OnClickListener()
                 {
                     @Override
@@ -391,10 +391,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
-            case R.id.createAndInviteRtcChannel:
-
-
-                break;
             default:
 
         }
@@ -421,29 +417,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void doIMLogin() {
         LoginInfo info = loginInfo();
         RequestCallback<LoginInfo> callback = new RequestCallback<LoginInfo>() {
-                    @Override
-                    public void onSuccess(LoginInfo param) {
-                        Log.i(TAG, "IM login success! Begin to do qchat login!");
-                        // your code
-                        doQChatLogin();
-                    }
+            @Override
+            public void onSuccess(LoginInfo param) {
+                Log.i(TAG, "IM login success! Begin to do qchat login!");
+                // your code
+                doQChatLogin();
+            }
 
-                    @Override
-                    public void onFailed(int code) {
-                        if (code == 302) {
-                            Log.i(TAG, "账号密码错误");
-                            // your code
-                        } else {
-                            Log.i(TAG, "登录失败，原因为"+code);
+            @Override
+            public void onFailed(int code) {
+                if (code == 302) {
+                    Log.i(TAG, "账号密码错误");
+                    // your code
+                } else {
+                    Log.i(TAG, "登录失败，原因为"+code);
 
-                        }
-                    }
+                }
+            }
 
-                    @Override
-                    public void onException(Throwable exception) {
-                        Log.i(TAG, exception.getStackTrace().toString());
-                    }
-                };
+            @Override
+            public void onException(Throwable exception) {
+                Log.i(TAG, exception.getStackTrace().toString());
+            }
+        };
 
         //执行手动登录
         NIMClient.getService(AuthService.class).login(info).setCallback(callback);
@@ -473,10 +469,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-       private void showToast(String content){
-           Toast toast = Toast.makeText(this, content, Toast.LENGTH_SHORT);
-           toast.setGravity(Gravity.CENTER, 0, 0);
-           toast.show();
-       }
-
+    private void showToast(String content){
+        Toast toast = Toast.makeText(this, content, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
+
+}

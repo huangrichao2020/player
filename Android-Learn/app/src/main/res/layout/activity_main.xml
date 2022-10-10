@@ -116,17 +116,17 @@
             android:layout_margin="10dp"
             android:text="保存信息并登录"/>
         <Button
-            android:id="@+id/readyServer"
+            android:id="@+id/easyBtn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="创建服务器"/>
+            android:text="直接接口1"/>
         <Button
-            android:id="@+id/readyChannel"
+            android:id="@+id/easyBtn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="创建消息频道"/>
+            android:text="直接接口2"/>
         <Button
             android:id="@+id/showBtn"
             android:layout_width="match_parent"
@@ -143,18 +143,18 @@
 
             />
         <Button
-            android:id="@+id/invitePeople"
+            android:id="@+id/inputBtn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="邀请某人加入服务器"/>
+            android:text="输入接口1"/>
 
         <Button
-            android:id="@+id/queryChannel"
+            android:id="@+id/queryBtn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="查询频道成员" />
+            android:text="查询接口1" />
 
         <EditText
             android:id="@+id/msgExt"
@@ -165,18 +165,18 @@
 
             />
         <Button
-            android:id="@+id/sendMsg"
+            android:id="@+id/inputBtn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="发送消息" />
+            android:text="输入接口2" />
 
         <Button
-            android:id="@+id/createAndInviteRtcChannel"
+            android:id="@+id/queryBtn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="创建RTC频道并邀请成员" />
+            android:text="查询接口2" />
         <Button
             android:id="@+id/call"
             android:layout_width="match_parent"

@@ -163,17 +163,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inviteExt = findViewById(R.id.inviteExt);
         messageExt = findViewById(R.id.msgExt);
         findViewById(R.id.saveAndLoginBtn).setOnClickListener(this);
-        findViewById(R.id.readyServer).setOnClickListener(this);
-        findViewById(R.id.readyChannel).setOnClickListener(this);
+        findViewById(R.id.easyBtn1).setOnClickListener(this);
+        findViewById(R.id.easyBtn2).setOnClickListener(this);
         findViewById(R.id.showBtn).setOnClickListener(this);
         findViewById(R.id.inviteExt).setOnClickListener(this);
-        findViewById(R.id.invitePeople).setOnClickListener(this);
-        findViewById(R.id.queryChannel).setOnClickListener(this);
+        findViewById(R.id.inputBtn1).setOnClickListener(this);
+        findViewById(R.id.queryBtn1).setOnClickListener(this);
         findViewById(R.id.msgExt).setOnClickListener(this);
-        findViewById(R.id.sendMsg).setOnClickListener(this);
+        findViewById(R.id.inputBtn2).setOnClickListener(this);
+
+        findViewById(R.id.queryBtn2).setOnClickListener(this);
         findViewById(R.id.call).setOnClickListener(this);
         findViewById(R.id.endCall).setOnClickListener(this);
-        findViewById(R.id.createAndInviteRtcChannel).setOnClickListener(this);
 
     }
 
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.readyServer:
+            case R.id.easyBtn1:
                 if( SharePreferenceUtils.getBoolean(this,SP_READY,false) ){
                     Log.d(TAG,"已创建过圈组服务器");
                     showToast("已创建过圈组服务器");
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
 
-            case R.id.readyChannel:
+            case R.id.easyBtn2:
                 //创建频道
                 //建立一个消息类型的频道
                 QChatCreateChannelParam channelParam = new QChatCreateChannelParam(SharePreferenceUtils.getLong(this,SP_SERVERID), "跑通圈组文档之频道", QChatChannelType.MessageChannel);
@@ -290,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 builder.create().show();//调用create()方法时返回的是一个AlertDialog对象，再调用show()方法将对话框显示出来
                 break;
 
-            case R.id.invitePeople:
+            case R.id.inputBtn1:
                 String inviteAcconut = inviteExt.getText().toString().trim();
                 List<String> accids = new ArrayList<>();
                 accids.add(inviteAcconut);
@@ -319,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         });
                 break;
 
-            case R.id.queryChannel:
+            case R.id.queryBtn1:
                 QChatGetChannelMembersByPageParam queryParam = new QChatGetChannelMembersByPageParam(getLong(this,SP_SERVERID),getLong(this,SP_CHANNELID),System.currentTimeMillis());
                 queryParam.setLimit(10);
                 NIMClient.getService(QChatChannelService.class).getChannelMembersByPage(queryParam).setCallback(new RequestCallback<QChatGetChannelMembersByPageResult>() {
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
-            case R.id.sendMsg:
+            case R.id.inputBtn2:
                 QChatSendMessageParam messageParam = new QChatSendMessageParam(getLong(this,SP_SERVERID),getLong(this,SP_CHANNELID), MsgTypeEnum.text);
                 messageParam.setBody(messageExt.getText().toString().trim());
                 messageParam.setMentionedAll(false);
@@ -390,7 +391,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //发送消息异常
                     }
                 });
+                break;
 
+            case R.id.queryBtn2:
+                Log.d(TAG,"点击queryBtn2");
+                break;
+            case R.id.call:
+                Log.d(TAG,"点击call");
+
+                break;
             default:
 
         }
